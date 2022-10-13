@@ -1,0 +1,71 @@
+@import "./theme.scss";
+
+.loginContainer {
+  background-color: $primary;
+}
+
+.titleLoginHero {
+  color: white;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-weight: bolder;
+  margin-top: 250px;
+  text-align: center;
+}
+
+.titleLogin {
+  color: white;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.logoHero {
+  top: 500;
+}
+
+.rowLoginHero {
+  background-image: url(../assets/hero/hero.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: 50vw;
+  height: 100vh;
+  margin: auto;
+}
+
+.rowLogin {
+  margin: auto;
+  padding: 10rem;
+  max-width: 50vw;
+}
+
+#boxUpload {
+  position: relative;
+  #imageUpload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    opacity: 0;
+  }
+}
+
+.imgProfile {
+  border-radius: 50%;
+}
+
+.react-calendar {
+  width: 350px;
+  max-width: 100%;
+  color: $secondary;
+  background: $primary;
+  border: 1px solid #a0a096;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+}

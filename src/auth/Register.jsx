@@ -6,7 +6,7 @@ import useForm from "../hooks/useForm";
 import useRegister from "../hooks/useRegister";
 
 export const Register = () => {
-  const { values, name, email, password, phone, userName, handleInputChange, handleAddImage, imageUrl } = useForm({
+  const { values, name, email, password, phone, userName, handleInputChange, handleAddImage } = useForm({
     name: "",
     email: "",
     password: "",
@@ -134,7 +134,7 @@ export const Register = () => {
                       onChange={handleAddImage}
                     />
                   </Form.Group>
-                  <Image className="imgProfile" src={imageUrl} width={100} height={100} />
+                  <Image className="imgProfile" src={values.url} width={100} height={100} />
                 </Col>
               </Row>
               <Row></Row>

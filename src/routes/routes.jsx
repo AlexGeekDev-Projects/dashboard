@@ -8,6 +8,7 @@ const routes = {
   register: "register",
   profile: "/profile",
   packages: "/packages",
+  createHotels: "/createHotels",
 };
 
 export default routes;

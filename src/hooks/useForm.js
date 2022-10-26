@@ -1,9 +1,11 @@
 import { useState } from "react";
-import Resizer from "react-image-file-resizer";
+import { useImgTreat } from "./useImgTreat";
 
 export const useForm = (initialState = {}) => {
   const [values, setValues] = useState(initialState);
-  const [imageUrl, setImageUrl] = useState();
+  const [images, setImages] = useState([]);
+  const [urls, setUrls] = useState([]);
+  const { dataURIToBlob, handleImage, resizeImgProfile } = useImgTreat();
 
   const reset = (newFormState = initialState) => {
     setValues(newFormState);
@@ -17,71 +19,65 @@ export const useForm = (initialState = {}) => {
     });
   };
 
-  const resizeImgProfile = (file) =>
-    new Promise((resolve) => {
-      if (file.type !== "image/gif") {
-        Resizer.imageFileResizer(
-          file,
-          180,
-          180,
-          "WEBP",
-          100,
-          0,
-          (uri) => {
-            resolve(uri);
-          },
-          "base64",
-          100,
-          100
-        );
-      } else {
-        resolve(file);
-      }
-    });
-
-  const dataURIToBlob = (dataURI) => {
-    if (dataURI.type !== "image/gif") {
-      const splitDataURI = dataURI.split(",");
-      const byteString = splitDataURI[0].indexOf("base64") >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1]);
-      const mimeString = splitDataURI[0].split(":")[1].split(";")[0];
-      const ia = new Uint8Array(byteString.length);
-      for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
-      return new Blob([ia], { type: mimeString });
-    } else {
-      return dataURI;
-    }
-  };
-
   const handleAddImage = async (image) => {
-    const imageSelected = image.target.files[0];
-    if (imageSelected === undefined) {
-      console.log("no se seleccionó imagen");
-      return;
-    }
-
-    if (
-      imageSelected.type === "image/jpeg" ||
-      imageSelected.type === "image/jpg" ||
-      imageSelected.type === "image/png" ||
-      imageSelected.type === "image/bmp" ||
-      imageSelected.type === "image/gif" ||
-      imageSelected.type === "image/webp"
-    ) {
-      const newFile = await resizeImgProfile(imageSelected);
-      const imageResize = dataURIToBlob(newFile);
-      const imageUrl = URL.createObjectURL(imageSelected);
-      setImageUrl(imageUrl);
-      setValues({
-        ...values,
-        photo: imageSelected,
-        thumbnail: imageResize,
-      });
-    } else {
-      console.log("type of image invalid");
-    }
+    const { imageSelected, url, error } = handleImage(image);
+    if (error) return;
+    const newFile = await resizeImgProfile(imageSelected);
+    const resize = dataURIToBlob(newFile);
+    setValues({
+      ...values,
+      photo: imageSelected,
+      thumbnail: resize,
+      url,
+    });
   };
 
-  return { ...values, values, handleInputChange, handleAddImage, imageUrl, reset };
+  const handleAddMultipleImgs = async (image) => {
+    const { imageSelected, url, error } = handleImage(image);
+    if (error) return;
+    const newFile = await resizeImgProfile(imageSelected);
+    const resize = dataURIToBlob(newFile);
+    setUrls([...urls, url]);
+    setImages([...images, { thumbnail: resize, image: imageSelected }]);
+    setValues({
+      ...values,
+      images: [...images, { thumbnail: resize, image: imageSelected }],
+    });
+  };
+
+  const handleDirectValue = (value, name) => {
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  const handleCheckBox = (e, name) => {
+    setValues({
+      ...values,
+      [name]: e.target.checked,
+    });
+  };
+
+  const handleSelect = (e, name) => {
+    setValues({
+      ...values,
+      [name]: e.target.value,
+    });
+  };
+
+  return {
+    ...values,
+    handleAddImage,
+    handleAddMultipleImgs,
+    handleDirectValue,
+    handleInputChange,
+    handleCheckBox,
+    handleSelect,
+    reset,
+    urls,
+    values,
+  };
 };
 
 export default useForm;

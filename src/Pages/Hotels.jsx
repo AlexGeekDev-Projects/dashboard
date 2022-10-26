@@ -6,6 +6,7 @@ import { GiForkKnifeSpoon } from "react-icons/gi";
 import { AiOutlineWifi, AiOutlineCoffee } from "react-icons/ai";
 import useFetch from "../hooks/useFetch";
 import { Loading } from "../components";
+import { Link } from "react-router-dom";
 
 export const Hotels = () => {
   const { handleRooms, rooms, isLoading } = useFetch();
@@ -42,9 +43,11 @@ export const Hotels = () => {
                 </Form>
               </Col>
               <Col>
-                <Button style={{ height: 40, color: "white" }} variant="primary">
-                  Crear Hotel
-                </Button>
+                <Link to="/createHotels">
+                  <Button style={{ height: 40, color: "white" }} variant="primary">
+                    Crear Hotel
+                  </Button>
+                </Link>
               </Col>
             </Row>
             <Row>

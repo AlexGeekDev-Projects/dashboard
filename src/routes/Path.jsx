@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login, Register } from "../auth";
 import { Hotels, Home, Packages, Users, Statistics } from "../Pages/";
+import { CrudNavbar } from "../components/Crudhotels/";
 import { useUiContext } from "../context/uiContext";
 import { Layout } from "../layout/Layout";
 import routes from "./routes";
@@ -12,6 +13,7 @@ export const Path = () => {
       {active ? (
         <Layout>
           <Routes>
+            <Route exact path={routes.createHotels} element={<CrudNavbar />} />
             <Route exact path={routes.home} element={<Home />} />
             <Route exact path={routes.hotels} element={<Hotels />} />
             <Route exact path={routes.login} element={<Login />} />
